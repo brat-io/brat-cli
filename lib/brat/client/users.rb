@@ -1,0 +1,123 @@
+class Brat::Client
+  # Defines methods related to users.
+  module Users
+    # Gets a list of users.
+    #
+    # @example
+    #   Brat.users
+    #
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Brat::ObjectifiedHash>]
+    def users(options={})
+      get("/users", :query => options)
+    end
+
+    # Gets information about a user.
+    # Will return information about an authorized user if no ID passed.
+    #
+    # @example
+    #   Brat.user
+    #   Brat.user(2)
+    #
+    # @param  [Integer] id The ID of a user.
+    # @return [Brat::ObjectifiedHash]
+    def user(id=nil)
+      id.to_i.zero? ? get("/user") : get("/users/#{id}")
+    end
+
+    # Creates a new user.
+    # Requires authentication from an admin account.
+    #
+    # @param  [String] email The email of a user.
+    # @param  [String] password The password of a user.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :name The name of a user. Defaults to email.
+    # @option options [String] :skype The skype of a user.
+    # @option options [String] :linkedin The linkedin of a user.
+    # @option options [String] :twitter The twitter of a user.
+    # @option options [Integer] :projects_limit The limit of projects for a user.
+    # @return [Brat::ObjectifiedHash] Information about created user.
+    def create_user(email, password, options={})
+      body = {:email => email, :password => password, :name => email}.merge(options)
+      post("/users", :body => body)
+    end
+
+    # Updates a user.
+    #
+    # @param  [Integer] id The ID of a user.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] email The email of a user.
+    # @option options [String] password The password of a user.
+    # @option options [String] :name The name of a user. Defaults to email.
+    # @option options [String] :skype The skype of a user.
+    # @option options [String] :linkedin The linkedin of a user.
+    # @option options [String] :twitter The twitter of a user.
+    # @option options [Integer] :projects_limit The limit of projects for a user.
+    # @return [Brat::ObjectifiedHash] Information about created user.
+    def edit_user(user_id, options={})
+      put("/users/#{user_id}", :body => options)
+    end
+
+    # Creates a new user session.
+    #
+    # @example
+    #   Brat.session('jack@example.com', 'secret12345')
+    #
+    # @param  [String] email The email of a user.
+    # @param  [String] password The password of a user.
+    # @return [Brat::ObjectifiedHash]
+    # @note This method doesn't require private_token to be set.
+    def session(email, password)
+      post("/session", :body => {:email => email, :password => password})
+    end
+
+    # Gets a list of user's SSH keys.
+    #
+    # @example
+    #   Brat.ssh_keys
+    #
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Brat::ObjectifiedHash>]
+    def ssh_keys(options={})
+      get("/user/keys", :query => options)
+    end
+
+    # Gets information about SSH key.
+    #
+    # @example
+    #   Brat.ssh_key(1)
+    #
+    # @param  [Integer] id The ID of a user's SSH key.
+    # @return [Brat::ObjectifiedHash]
+    def ssh_key(id)
+      get("/user/keys/#{id}")
+    end
+
+    # Creates a new SSH key.
+    #
+    # @example
+    #   Brat.create_ssh_key('key title', 'key body')
+    #
+    # @param  [String] title The title of an SSH key.
+    # @param  [String] key The SSH key body.
+    # @return [Brat::ObjectifiedHash] Information about created SSH key.
+    def create_ssh_key(title, key)
+      post("/user/keys", :body => {:title => title, :key => key})
+    end
+
+    # Deletes an SSH key.
+    #
+    # @example
+    #   Brat.delete_ssh_key(1)
+    #
+    # @param  [Integer] id The ID of a user's SSH key.
+    # @return [Brat::ObjectifiedHash] Information about deleted SSH key.
+    def delete_ssh_key(id)
+      delete("/user/keys/#{id}")
+    end
+  end
+end
