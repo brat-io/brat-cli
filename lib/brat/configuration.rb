@@ -31,7 +31,7 @@ module Brat
 
     # Resets all configuration options to the defaults.
     def reset
-      self.endpoint       = ENV['BRAT_API_ENDPOINT']
+      self.endpoint       = 'http://brat.io/api/v3'
       self.private_token  = ENV['BRAT_API_PRIVATE_TOKEN']
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
