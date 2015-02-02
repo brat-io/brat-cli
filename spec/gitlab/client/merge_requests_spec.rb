@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".merge_requests" do
     before do
       stub_get("/projects/3/merge_requests", "merge_requests")
-      @merge_requests = Gitlab.merge_requests(3)
+      @merge_requests = Brat.merge_requests(3)
     end
 
     it "should get the correct resource" do
@@ -20,7 +20,7 @@ describe Gitlab::Client do
   describe ".merge_request" do
     before do
       stub_get("/projects/3/merge_request/1", "merge_request")
-      @merge_request = Gitlab.merge_request(3, 1)
+      @merge_request = Brat.merge_request(3, 1)
     end
 
     it "should get the correct resource" do
@@ -40,18 +40,18 @@ describe Gitlab::Client do
 
     it "should fail if it doesn't have a source_branch" do
       expect {
-        Gitlab.create_merge_request(3, 'New merge request', :target_branch => 'master')
-      }.to raise_error Gitlab::Error::MissingAttributes
+        Brat.create_merge_request(3, 'New merge request', :target_branch => 'master')
+      }.to raise_error Brat::Error::MissingAttributes
     end
 
     it "should fail if it doesn't have a target_branch" do
       expect {
-        Gitlab.create_merge_request(3, 'New merge request', :source_branch => 'dev')
-      }.to raise_error Gitlab::Error::MissingAttributes
+        Brat.create_merge_request(3, 'New merge request', :source_branch => 'dev')
+      }.to raise_error Brat::Error::MissingAttributes
     end
 
     it "should return information about a merge request" do
-      @merge_request = Gitlab.create_merge_request(3, 'New feature',
+      @merge_request = Brat.create_merge_request(3, 'New feature',
         :source_branch => 'api',
         :target_branch => 'master'
       )
@@ -64,7 +64,7 @@ describe Gitlab::Client do
   describe ".update_merge_request" do
     before do
       stub_put("/projects/3/merge_request/2", "update_merge_request")
-      @merge_request = Gitlab.update_merge_request(3, 2,
+      @merge_request = Brat.update_merge_request(3, 2,
         :assignee_id   => '1',
         :target_branch => 'master',
         :title         => 'A different new feature'
@@ -81,7 +81,7 @@ describe Gitlab::Client do
   describe ".merge_request_comments" do
     before do
       stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
-      @merge_request = Gitlab.merge_request_comments(3, 2)
+      @merge_request = Brat.merge_request_comments(3, 2)
     end
 
     it "should return merge request's comments" do
@@ -97,7 +97,7 @@ describe Gitlab::Client do
   describe ".merge_request_comments" do
     before do
       stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
-      @merge_request = Gitlab.merge_request_comments(3, 2)
+      @merge_request = Brat.merge_request_comments(3, 2)
     end
 
     it "should return merge request's comments" do
@@ -116,7 +116,7 @@ describe Gitlab::Client do
     end
 
     it "should return information about a merge request" do
-      @merge_request = Gitlab.create_merge_request_comment(3, 2, 'Cool Merge Request!')
+      @merge_request = Brat.create_merge_request_comment(3, 2, 'Cool Merge Request!')
       expect(@merge_request.note).to eq('Cool Merge Request!')
       @merge_request.author.id == 1
     end

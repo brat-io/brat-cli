@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".projects" do
     before do
       stub_get("/projects", "projects")
-      @projects = Gitlab.projects
+      @projects = Brat.projects
     end
 
     it "should get the correct resource" do
@@ -21,7 +21,7 @@ describe Gitlab::Client do
   describe ".project" do
     before do
       stub_get("/projects/3", "project")
-      @project = Gitlab.project(3)
+      @project = Brat.project(3)
     end
 
     it "should get the correct resource" do
@@ -29,7 +29,7 @@ describe Gitlab::Client do
     end
 
     it "should return information about a project" do
-      expect(@project.name).to eq("Gitlab")
+      expect(@project.name).to eq("Brat")
       expect(@project.owner.name).to eq("John Smith")
     end
   end
@@ -37,7 +37,7 @@ describe Gitlab::Client do
   describe ".project_events" do
     before do
       stub_get("/projects/2/events", "project_events")
-      @events = Gitlab.project_events(2)
+      @events = Brat.project_events(2)
     end
 
     it "should get the correct resource" do
@@ -57,7 +57,7 @@ describe Gitlab::Client do
   describe ".create_project" do
     before do
       stub_post("/projects", "project")
-      @project = Gitlab.create_project('Gitlab')
+      @project = Brat.create_project('Brat')
     end
 
     it "should get the correct resource" do
@@ -65,7 +65,7 @@ describe Gitlab::Client do
     end
 
     it "should return information about a created project" do
-      expect(@project.name).to eq("Gitlab")
+      expect(@project.name).to eq("Brat")
       expect(@project.owner.name).to eq("John Smith")
     end
   end
@@ -73,9 +73,9 @@ describe Gitlab::Client do
   describe ".create_project for user" do
     before do
       stub_post("/users", "user")
-      @owner = Gitlab.create_user("john@example.com", "pass", {name: 'John Owner'})
+      @owner = Brat.create_user("john@example.com", "pass", {name: 'John Owner'})
       stub_post("/projects/user/#{@owner.id}", "project_for_user")
-      @project = Gitlab.create_project('Brute', {:user_id => @owner.id})
+      @project = Brat.create_project('Brute', {:user_id => @owner.id})
     end
 
     it "should return information about a created project" do
@@ -86,16 +86,16 @@ describe Gitlab::Client do
 
   describe ".delete_project" do
     before do
-      stub_delete("/projects/Gitlab", "project")
-      @project = Gitlab.delete_project('Gitlab')
+      stub_delete("/projects/Brat", "project")
+      @project = Brat.delete_project('Brat')
     end
 
     it "should get the correct resource" do
-      expect(a_delete("/projects/Gitlab")).to have_been_made
+      expect(a_delete("/projects/Brat")).to have_been_made
     end
 
     it "should return information about a deleted project" do
-      expect(@project.name).to eq("Gitlab")
+      expect(@project.name).to eq("Brat")
       expect(@project.owner.name).to eq("John Smith")
     end
   end
@@ -103,7 +103,7 @@ describe Gitlab::Client do
   describe ".team_members" do
     before do
       stub_get("/projects/3/members", "team_members")
-      @team_members = Gitlab.team_members(3)
+      @team_members = Brat.team_members(3)
     end
 
     it "should get the correct resource" do
@@ -119,7 +119,7 @@ describe Gitlab::Client do
   describe ".team_member" do
     before do
       stub_get("/projects/3/members/1", "team_member")
-      @team_member = Gitlab.team_member(3, 1)
+      @team_member = Brat.team_member(3, 1)
     end
 
     it "should get the correct resource" do
@@ -134,7 +134,7 @@ describe Gitlab::Client do
   describe ".add_team_member" do
     before do
       stub_post("/projects/3/members", "team_member")
-      @team_member = Gitlab.add_team_member(3, 1, 40)
+      @team_member = Brat.add_team_member(3, 1, 40)
     end
 
     it "should get the correct resource" do
@@ -150,7 +150,7 @@ describe Gitlab::Client do
   describe ".edit_team_member" do
     before do
       stub_put("/projects/3/members/1", "team_member")
-      @team_member = Gitlab.edit_team_member(3, 1, 40)
+      @team_member = Brat.edit_team_member(3, 1, 40)
     end
 
     it "should get the correct resource" do
@@ -166,7 +166,7 @@ describe Gitlab::Client do
   describe ".remove_team_member" do
     before do
       stub_delete("/projects/3/members/1", "team_member")
-      @team_member = Gitlab.remove_team_member(3, 1)
+      @team_member = Brat.remove_team_member(3, 1)
     end
 
     it "should get the correct resource" do
@@ -181,7 +181,7 @@ describe Gitlab::Client do
   describe ".project_hooks" do
     before do
       stub_get("/projects/1/hooks", "project_hooks")
-      @hooks = Gitlab.project_hooks(1)
+      @hooks = Brat.project_hooks(1)
     end
 
     it "should get the correct resource" do
@@ -197,7 +197,7 @@ describe Gitlab::Client do
   describe ".project_hook" do
     before do
       stub_get("/projects/1/hooks/1", "project_hook")
-      @hook = Gitlab.project_hook(1, 1)
+      @hook = Brat.project_hook(1, 1)
     end
 
     it "should get the correct resource" do
@@ -213,7 +213,7 @@ describe Gitlab::Client do
     context "without specified events" do
       before do
         stub_post("/projects/1/hooks", "project_hook")
-        @hook = Gitlab.add_project_hook(1, "https://api.example.net/v1/webhooks/ci")
+        @hook = Brat.add_project_hook(1, "https://api.example.net/v1/webhooks/ci")
       end
 
       it "should get the correct resource" do
@@ -229,7 +229,7 @@ describe Gitlab::Client do
     context "with specified events" do
       before do
         stub_post("/projects/1/hooks", "project_hook")
-        @hook = Gitlab.add_project_hook(1, "https://api.example.net/v1/webhooks/ci", push_events: true, merge_requests_events: true)
+        @hook = Brat.add_project_hook(1, "https://api.example.net/v1/webhooks/ci", push_events: true, merge_requests_events: true)
       end
 
       it "should get the correct resource" do
@@ -246,7 +246,7 @@ describe Gitlab::Client do
   describe ".edit_project_hook" do
     before do
       stub_put("/projects/1/hooks/1", "project_hook")
-      @hook = Gitlab.edit_project_hook(1, 1, "https://api.example.net/v1/webhooks/ci")
+      @hook = Brat.edit_project_hook(1, 1, "https://api.example.net/v1/webhooks/ci")
     end
 
     it "should get the correct resource" do
@@ -262,7 +262,7 @@ describe Gitlab::Client do
   describe ".delete_project_hook" do
     before do
       stub_delete("/projects/1/hooks/1", "project_hook")
-      @hook = Gitlab.delete_project_hook(1, 1)
+      @hook = Brat.delete_project_hook(1, 1)
     end
 
     it "should get the correct resource" do
@@ -277,7 +277,7 @@ describe Gitlab::Client do
   describe ".make_forked_from" do
     before do
       stub_post("/projects/42/fork/24", "project_fork_link")
-      @forked_project_link = Gitlab.make_forked_from(42, 24)
+      @forked_project_link = Brat.make_forked_from(42, 24)
     end
 
     it "should get the correct resource" do
@@ -293,7 +293,7 @@ describe Gitlab::Client do
   describe ".remove_forked" do
     before do
       stub_delete("/projects/42/fork", "project_fork_link")
-      @forked_project_link = Gitlab.remove_forked(42)
+      @forked_project_link = Brat.remove_forked(42)
     end
 
     it "should be sent to correct resource" do
@@ -308,7 +308,7 @@ describe Gitlab::Client do
   describe ".deploy_keys" do
     before do
       stub_get("/projects/42/keys", "project_keys")
-      @deploy_keys = Gitlab.deploy_keys(42)
+      @deploy_keys = Brat.deploy_keys(42)
     end
 
     it "should get the correct resource" do
@@ -326,7 +326,7 @@ describe Gitlab::Client do
   describe ".deploy_key" do
     before do
       stub_get("/projects/42/keys/2", "project_key")
-      @deploy_key = Gitlab.deploy_key(42, 2)
+      @deploy_key = Brat.deploy_key(42, 2)
     end
 
     it "should get the correct resource" do
@@ -343,7 +343,7 @@ describe Gitlab::Client do
   describe ".delete_deploy_key" do
     before do
       stub_delete("/projects/42/keys/2", "project_delete_key")
-      @deploy_key = Gitlab.delete_deploy_key(42, 2)
+      @deploy_key = Brat.delete_deploy_key(42, 2)
     end
 
     it "should get the correct resource" do

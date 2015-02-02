@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe "notes" do
     context "when wall notes" do
       before do
         stub_get("/projects/3/notes", "notes")
-        @notes = Gitlab.notes(3)
+        @notes = Brat.notes(3)
       end
 
       it "should get the correct resource" do
@@ -21,7 +21,7 @@ describe Gitlab::Client do
     context "when issue notes" do
       before do
         stub_get("/projects/3/issues/7/notes", "notes")
-        @notes = Gitlab.issue_notes(3, 7)
+        @notes = Brat.issue_notes(3, 7)
       end
 
       it "should get the correct resource" do
@@ -37,7 +37,7 @@ describe Gitlab::Client do
     context "when snippet notes" do
       before do
         stub_get("/projects/3/snippets/7/notes", "notes")
-        @notes = Gitlab.snippet_notes(3, 7)
+        @notes = Brat.snippet_notes(3, 7)
       end
 
       it "should get the correct resource" do
@@ -55,7 +55,7 @@ describe Gitlab::Client do
     context "when wall note" do
       before do
         stub_get("/projects/3/notes/1201", "note")
-        @note = Gitlab.note(3, 1201)
+        @note = Brat.note(3, 1201)
       end
 
       it "should get the correct resource" do
@@ -71,7 +71,7 @@ describe Gitlab::Client do
     context "when issue note" do
       before do
         stub_get("/projects/3/issues/7/notes/1201", "note")
-        @note = Gitlab.issue_note(3, 7, 1201)
+        @note = Brat.issue_note(3, 7, 1201)
       end
 
       it "should get the correct resource" do
@@ -87,7 +87,7 @@ describe Gitlab::Client do
     context "when snippet note" do
       before do
         stub_get("/projects/3/snippets/7/notes/1201", "note")
-        @note = Gitlab.snippet_note(3, 7, 1201)
+        @note = Brat.snippet_note(3, 7, 1201)
       end
 
       it "should get the correct resource" do
@@ -105,7 +105,7 @@ describe Gitlab::Client do
     context "when wall note" do
       before do
         stub_post("/projects/3/notes", "note")
-        @note = Gitlab.create_note(3, "The solution is rather tricky")
+        @note = Brat.create_note(3, "The solution is rather tricky")
       end
 
       it "should get the correct resource" do
@@ -122,7 +122,7 @@ describe Gitlab::Client do
     context "when issue note" do
       before do
         stub_post("/projects/3/issues/7/notes", "note")
-        @note = Gitlab.create_issue_note(3, 7, "The solution is rather tricky")
+        @note = Brat.create_issue_note(3, 7, "The solution is rather tricky")
       end
 
       it "should get the correct resource" do
@@ -139,7 +139,7 @@ describe Gitlab::Client do
     context "when snippet note" do
       before do
         stub_post("/projects/3/snippets/7/notes", "note")
-        @note = Gitlab.create_snippet_note(3, 7, "The solution is rather tricky")
+        @note = Brat.create_snippet_note(3, 7, "The solution is rather tricky")
       end
 
       it "should get the correct resource" do

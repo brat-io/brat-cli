@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".issues" do
     context "with project ID passed" do
       before do
         stub_get("/projects/3/issues", "project_issues")
-        @issues = Gitlab.issues(3)
+        @issues = Brat.issues(3)
       end
 
       it "should get the correct resource" do
@@ -21,7 +21,7 @@ describe Gitlab::Client do
     context "without project ID passed" do
       before do
         stub_get("/issues", "issues")
-        @issues = Gitlab.issues
+        @issues = Brat.issues
       end
 
       it "should get the correct resource" do
@@ -39,7 +39,7 @@ describe Gitlab::Client do
   describe ".issue" do
     before do
       stub_get("/projects/3/issues/33", "issue")
-      @issue = Gitlab.issue(3, 33)
+      @issue = Brat.issue(3, 33)
     end
 
     it "should get the correct resource" do
@@ -55,7 +55,7 @@ describe Gitlab::Client do
   describe ".create_issue" do
     before do
       stub_post("/projects/3/issues", "issue")
-      @issue = Gitlab.create_issue(3, 'title')
+      @issue = Brat.create_issue(3, 'title')
     end
 
     it "should get the correct resource" do
@@ -72,7 +72,7 @@ describe Gitlab::Client do
   describe ".edit_issue" do
     before do
       stub_put("/projects/3/issues/33", "issue")
-      @issue = Gitlab.edit_issue(3, 33, :title => 'title')
+      @issue = Brat.edit_issue(3, 33, :title => 'title')
     end
 
     it "should get the correct resource" do
@@ -89,7 +89,7 @@ describe Gitlab::Client do
   describe ".close_issue" do
     before do
       stub_put("/projects/3/issues/33", "issue")
-      @issue = Gitlab.close_issue(3, 33)
+      @issue = Brat.close_issue(3, 33)
     end
 
     it "should get the correct resource" do
@@ -106,7 +106,7 @@ describe Gitlab::Client do
   describe ".reopen_issue" do
     before do
       stub_put("/projects/3/issues/33", "issue")
-      @issue = Gitlab.reopen_issue(3, 33)
+      @issue = Brat.reopen_issue(3, 33)
     end
 
     it "should get the correct resource" do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   it { should respond_to :repo_tags }
   it { should respond_to :repo_create_tag }
   it { should respond_to :repo_branches }
@@ -12,7 +12,7 @@ describe Gitlab::Client do
   describe ".tags" do
     before do
       stub_get("/projects/3/repository/tags", "project_tags")
-      @tags = Gitlab.tags(3)
+      @tags = Brat.tags(3)
     end
 
     it "should get the correct resource" do
@@ -28,7 +28,7 @@ describe Gitlab::Client do
   describe ".create_tag" do
     before do
       stub_post("/projects/3/repository/tags", "tag")
-      @tag = Gitlab.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7')
+      @tag = Brat.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7')
     end
 
     it "should get the correct resource" do
@@ -44,7 +44,7 @@ describe Gitlab::Client do
     before do
       stub_get("/projects/3/repository/commits", "project_commits").
         with(:query => {:ref_name => "api"})
-      @commits = Gitlab.commits(3, :ref_name => "api")
+      @commits = Brat.commits(3, :ref_name => "api")
     end
 
     it "should get the correct resource" do
@@ -61,7 +61,7 @@ describe Gitlab::Client do
   describe ".commit" do
     before do
       stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6", "project_commit")
-      @commit = Gitlab.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      @commit = Brat.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
     it "should get the correct resource" do
@@ -77,7 +77,7 @@ describe Gitlab::Client do
   describe ".commit_diff" do
     before do
       stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff", "project_commit_diff")
-      @diff = Gitlab.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      @diff = Brat.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
     it "should get the correct resource" do

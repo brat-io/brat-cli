@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".users" do
     before do
       stub_get("/users", "users")
-      @users = Gitlab.users
+      @users = Brat.users
     end
 
     it "should get the correct resource" do
@@ -21,7 +21,7 @@ describe Gitlab::Client do
     context "with user ID passed" do
       before do
         stub_get("/users/1", "user")
-        @user = Gitlab.user(1)
+        @user = Brat.user(1)
       end
 
       it "should get the correct resource" do
@@ -36,7 +36,7 @@ describe Gitlab::Client do
     context "without user ID passed" do
       before do
         stub_get("/user", "user")
-        @user = Gitlab.user
+        @user = Brat.user
       end
 
       it "should get the correct resource" do
@@ -53,7 +53,7 @@ describe Gitlab::Client do
     context "when successful request" do
       before do
         stub_post("/users", "user")
-        @user = Gitlab.create_user("email", "pass")
+        @user = Brat.create_user("email", "pass")
       end
 
       it "should get the correct resource" do
@@ -70,8 +70,8 @@ describe Gitlab::Client do
       it "should throw an exception" do
         stub_post("/users", "error_already_exists", 409)
         expect {
-          Gitlab.create_user("email", "pass")
-        }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
+          Brat.create_user("email", "pass")
+        }.to raise_error(Brat::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Brat.endpoint}/users")
       end
     end
   end
@@ -80,7 +80,7 @@ describe Gitlab::Client do
     before do
       @options = { :name => "Roberto" }
       stub_put("/users/1", "user").with(:body => @options)
-      @user = Gitlab.edit_user(1, @options)
+      @user = Brat.edit_user(1, @options)
     end
 
     it "should get the correct resource" do
@@ -90,35 +90,35 @@ describe Gitlab::Client do
 
   describe ".session" do
     after do
-      Gitlab.endpoint = 'https://api.example.com'
-      Gitlab.private_token = 'secret'
+      Brat.endpoint = 'https://api.example.com'
+      Brat.private_token = 'secret'
     end
 
     before do
-      stub_request(:post, "#{Gitlab.endpoint}/session").
+      stub_request(:post, "#{Brat.endpoint}/session").
         to_return(:body => load_fixture('session'), :status => 200)
-      @session = Gitlab.session("email", "pass")
+      @session = Brat.session("email", "pass")
     end
 
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
-        Gitlab.endpoint = nil
+        Brat.endpoint = nil
         expect {
-          Gitlab.session("email", "pass")
-        }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
+          Brat.session("email", "pass")
+        }.to raise_error(Brat::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
     context "when private_token is not set" do
       it "should not raise Error::MissingCredentials" do
-        Gitlab.private_token = nil
-        expect { Gitlab.session("email", "pass") }.to_not raise_error
+        Brat.private_token = nil
+        expect { Brat.session("email", "pass") }.to_not raise_error
       end
     end
 
     context "when endpoint is set" do
       it "should get the correct resource" do
-        expect(a_request(:post, "#{Gitlab.endpoint}/session")).to have_been_made
+        expect(a_request(:post, "#{Brat.endpoint}/session")).to have_been_made
       end
 
       it "should return information about a created session" do
@@ -131,7 +131,7 @@ describe Gitlab::Client do
   describe ".ssh_keys" do
     before do
       stub_get("/user/keys", "keys")
-      @keys = Gitlab.ssh_keys
+      @keys = Brat.ssh_keys
     end
 
     it "should get the correct resource" do
@@ -147,7 +147,7 @@ describe Gitlab::Client do
   describe ".ssh_key" do
     before do
       stub_get("/user/keys/1", "key")
-      @key = Gitlab.ssh_key(1)
+      @key = Brat.ssh_key(1)
     end
 
     it "should get the correct resource" do
@@ -162,7 +162,7 @@ describe Gitlab::Client do
   describe ".create_ssh_key" do
     before do
       stub_post("/user/keys", "key")
-      @key = Gitlab.create_ssh_key("title", "body")
+      @key = Brat.create_ssh_key("title", "body")
     end
 
     it "should get the correct resource" do
@@ -178,7 +178,7 @@ describe Gitlab::Client do
   describe ".delete_ssh_key" do
     before do
       stub_delete("/user/keys/1", "key")
-      @key = Gitlab.delete_ssh_key(1)
+      @key = Brat.delete_ssh_key(1)
     end
 
     it "should get the correct resource" do

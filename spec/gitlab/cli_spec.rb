@@ -1,27 +1,27 @@
 require 'spec_helper'
 
-describe Gitlab::CLI do
+describe Brat::CLI do
   describe ".run" do
     context "when command is version" do
       it "should show gem version" do
-        output = capture_output { Gitlab::CLI.run('-v') }
-        expect(output).to eq("Gitlab Ruby Gem #{Gitlab::VERSION}\n")
+        output = capture_output { Brat::CLI.run('-v') }
+        expect(output).to eq("Brat Ruby Gem #{Brat::VERSION}\n")
       end
     end
 
     context "when command is info" do
       it "should show environment info" do
-        output = capture_output { Gitlab::CLI.run('info') }
-        expect(output).to include("Gitlab endpoint is")
-        expect(output).to include("Gitlab private token is")
+        output = capture_output { Brat::CLI.run('info') }
+        expect(output).to include("Brat endpoint is")
+        expect(output).to include("Brat private token is")
         expect(output).to include("Ruby Version is")
-        expect(output).to include("Gitlab Ruby Gem")
+        expect(output).to include("Brat Ruby Gem")
       end
     end
 
     context "when command is help" do
       it "should show available actions" do
-        output = capture_output { Gitlab::CLI.run('help') }
+        output = capture_output { Brat::CLI.run('help') }
         expect(output).to include('Available commands')
         expect(output).to include('MergeRequests')
         expect(output).to include('team_members')
@@ -31,11 +31,11 @@ describe Gitlab::CLI do
     context "when command is user" do
       before do
         stub_get("/user", "user")
-        @output = capture_output { Gitlab::CLI.run('user') }
+        @output = capture_output { Brat::CLI.run('user') }
       end
 
       it "should show executed command" do
-        expect(@output).to include('Gitlab.user')
+        expect(@output).to include('Brat.user')
       end
 
       it "should show user data" do
@@ -50,7 +50,7 @@ describe Gitlab::CLI do
       before do
         stub_get("/user", "user")
         args = ['user', '--except=id,email,name']
-        @output = capture_output { Gitlab::CLI.start(args) }
+        @output = capture_output { Brat::CLI.start(args) }
       end
 
       it "should show user data with excluded fields" do
@@ -64,7 +64,7 @@ describe Gitlab::CLI do
       before do
         stub_get("/user", "user")
         args = ['user', '--only=id,email,name']
-        @output = capture_output { Gitlab::CLI.start(args) }
+        @output = capture_output { Brat::CLI.start(args) }
       end
 
       it "should show user data with required fields" do

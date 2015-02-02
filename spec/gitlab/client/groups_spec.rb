@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".groups" do
     before do
       stub_get("/groups", "groups")
       stub_get("/groups/3", "group")
-      @group = Gitlab.group(3)
-      @groups = Gitlab.groups
+      @group = Brat.group(3)
+      @groups = Brat.groups
     end
 
     it "should get the correct resource" do
@@ -23,29 +23,29 @@ describe Gitlab::Client do
   describe ".create_group" do
     before do
       stub_post("/groups", "group_create")
-      @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+      @group = Brat.create_group('Brat-Group', 'brat-path')
     end
 
     it "should get the correct resource" do
       expect(a_post("/groups").
-          with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group'})).to have_been_made
+          with(:body => {:path => 'brat-path', :name => 'Brat-Group'})).to have_been_made
     end
 
     it "should return information about a created group" do
-      expect(@group.name).to eq("Gitlab-Group")
-      expect(@group.path).to eq("gitlab-group")
+      expect(@group.name).to eq("Brat-Group")
+      expect(@group.path).to eq("brat-group")
     end
   end
 
   describe ".transfer_project_to_group" do
     before do
       stub_post("/projects", "project")
-      @project = Gitlab.create_project('Gitlab')
+      @project = Brat.create_project('Brat')
       stub_post("/groups", "group_create")
-      @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+      @group = Brat.create_group('Brat-Group', 'brat-path')
 
       stub_post("/groups/#{@group.id}/projects/#{@project.id}", "group_create")
-      @group_transfer = Gitlab.transfer_project_to_group(@group.id,@project.id)
+      @group_transfer = Brat.transfer_project_to_group(@group.id,@project.id)
     end
 
     it "should post to the correct resource" do
@@ -62,7 +62,7 @@ describe Gitlab::Client do
   describe ".group_members" do
     before do
       stub_get("/groups/3/members", "group_members")
-      @members = Gitlab.group_members(3)
+      @members = Brat.group_members(3)
     end
 
     it "should get the correct resource" do
@@ -79,7 +79,7 @@ describe Gitlab::Client do
   describe ".add_group_member" do
     before do
       stub_post("/groups/3/members", "group_member")
-      @member = Gitlab.add_group_member(3, 1, 40)
+      @member = Brat.add_group_member(3, 1, 40)
     end
 
     it "should get the correct resource" do
@@ -95,7 +95,7 @@ describe Gitlab::Client do
   describe ".remove_group_member" do
     before do
       stub_delete("/groups/3/members/1", "group_member_delete")
-      @group = Gitlab.remove_group_member(3, 1)
+      @group = Brat.remove_group_member(3, 1)
     end
 
     it "should get the correct resource" do

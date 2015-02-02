@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".snippets" do
     before do
       stub_get("/projects/3/snippets", "snippets")
-      @snippets = Gitlab.snippets(3)
+      @snippets = Brat.snippets(3)
     end
 
     it "should get the correct resource" do
@@ -20,7 +20,7 @@ describe Gitlab::Client do
   describe ".snippet" do
     before do
       stub_get("/projects/3/snippets/1", "snippet")
-      @snippet = Gitlab.snippet(3, 1)
+      @snippet = Brat.snippet(3, 1)
     end
 
     it "should get the correct resource" do
@@ -36,7 +36,7 @@ describe Gitlab::Client do
   describe ".create_snippet" do
     before do
       stub_post("/projects/3/snippets", "snippet")
-      @snippet = Gitlab.create_snippet(3, {:title => 'API', :file_name => 'api.rb', :code => 'code'})
+      @snippet = Brat.create_snippet(3, {:title => 'API', :file_name => 'api.rb', :code => 'code'})
     end
 
     it "should get the correct resource" do
@@ -53,7 +53,7 @@ describe Gitlab::Client do
   describe ".edit_snippet" do
     before do
       stub_put("/projects/3/snippets/1", "snippet")
-      @snippet = Gitlab.edit_snippet(3, 1, :file_name => 'mailer_test.rb')
+      @snippet = Brat.edit_snippet(3, 1, :file_name => 'mailer_test.rb')
     end
 
     it "should get the correct resource" do
@@ -70,7 +70,7 @@ describe Gitlab::Client do
   describe ".delete_snippet" do
     before do
       stub_delete("/projects/3/snippets/1", "snippet")
-      @snippet = Gitlab.delete_snippet(3, 1)
+      @snippet = Brat.delete_snippet(3, 1)
     end
 
     it "should get the correct resource" do

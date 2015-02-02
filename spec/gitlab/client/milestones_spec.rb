@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Gitlab::Client do
+describe Brat::Client do
   describe ".milestones" do
     before do
       stub_get("/projects/3/milestones", "milestones")
-      @milestones = Gitlab.milestones(3)
+      @milestones = Brat.milestones(3)
     end
 
     it "should get the correct resource" do
@@ -20,7 +20,7 @@ describe Gitlab::Client do
   describe ".milestone" do
     before do
       stub_get("/projects/3/milestones/1", "milestone")
-      @milestone = Gitlab.milestone(3, 1)
+      @milestone = Brat.milestone(3, 1)
     end
 
     it "should get the correct resource" do
@@ -35,7 +35,7 @@ describe Gitlab::Client do
   describe ".create_milestone" do
     before do
       stub_post("/projects/3/milestones", "milestone")
-      @milestone = Gitlab.create_milestone(3, 'title')
+      @milestone = Brat.create_milestone(3, 'title')
     end
 
     it "should get the correct resource" do
@@ -51,7 +51,7 @@ describe Gitlab::Client do
   describe ".edit_milestone" do
     before do
       stub_put("/projects/3/milestones/33", "milestone")
-      @milestone = Gitlab.edit_milestone(3, 33, :title => 'title')
+      @milestone = Brat.edit_milestone(3, 33, :title => 'title')
     end
 
     it "should get the correct resource" do
