@@ -47,7 +47,7 @@ Brat.projects(:per_page => 5)
 
 # initialize a new client
 g = Brat.client(:endpoint => 'https://brat.io/api/v3', private_token: 'qEsq1pt6HJPaNciie3MG')
-# => #<Brat::Client:0x00000001e62408 @endpoint="https://api.example.com", @private_token="qEsq1pt6HJPaNciie3MG", @user_agent="Brat Ruby Gem 0.1.0">
+# => #<Brat::Client:0x00000001e62408 @endpoint="https://api.example.com", @private_token="qEsq1pt6HJPaNciie3MG", @user_agent="Brat Ruby Gem 0.1.1">
 
 # get a user
 user = g.user
