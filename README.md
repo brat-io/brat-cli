@@ -3,7 +3,7 @@
 [website](http://brat.io/brat-io/brat)
 [![build status](http://ci.brat.io/projects/7/status.png?ref=master)](http://ci.brat.io/projects/7?ref=master)
 
-Brat is a wrapper and CLI for (Brat.io)[http://brat.io/brat-io/brat]. We are currently in pre-release.
+Brat is a wrapper and CLI for [Brat.io](http://brat.io/brat-io/brat). We are currently in pre-release.
 
 ## Installation
 
@@ -17,7 +17,7 @@ Or add to a Gemfile:
 
 ```ruby
 gem 'brat'
-# gem 'brat', :git => 'git://brat.io/brat-io/brat.git'
+# gem 'brat', :git => 'git://git.brat.io/brat-io/brat.git'
 ```
 
 ## Usage
@@ -47,7 +47,7 @@ Brat.projects(:per_page => 5)
 
 # initialize a new client
 g = Brat.client(:endpoint => 'https://brat.io/api/v3', private_token: 'qEsq1pt6HJPaNciie3MG')
-# => #<Brat::Client:0x00000001e62408 @endpoint="https://api.example.com", @private_token="qEsq1pt6HJPaNciie3MG", @user_agent="Brat Ruby Gem 0.1.1">
+# => #<Brat::Client:0x00000001e62408 @endpoint="https://brat.io/api/v3", @private_token="qEsq1pt6HJPaNciie3MG", @user_agent="Brat Ruby Gem 0.1.1">
 
 # get a user
 user = g.user
