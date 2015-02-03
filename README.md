@@ -2,7 +2,7 @@
 
 [website](http://brat.io/brat-io/brat)
 
-[![build status](http://ci.brat.io/projects/7/status.png?ref=master)](http://ci.brat.io/projects/7?ref=master)
+[![Gem Version](https://badge.fury.io/rb/brat.svg)](http://badge.fury.io/rb/brat) [![build status](http://ci.brat.io/projects/7/status.png?ref=master)](http://ci.brat.io/projects/7?ref=master)
 
 Brat is a wrapper and CLI for [Brat.io](http://brat.io/brat-io/brat). We are currently in pre-release.
 
