@@ -7,10 +7,10 @@ Gem::Specification.new do |gem|
   gem.name          = "brat"
   gem.version       = Brat::VERSION
   gem.authors       = ["John-Henry Liberty"]
-  gem.email         = ["johnhenry.liberty@gmail.com"]
+  gem.email         = ["jhliberty@terminalvelo.city"]
   gem.description   = %q{Ruby client and CLI for Brat.io}
   gem.summary       = %q{A Ruby wrapper and CLI for the Brat.io API}
-  gem.homepage      = "https://github.com/jhliberty/brat-cli"
+  gem.homepage      = "https://github.com/brat-io/brat-cli"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
